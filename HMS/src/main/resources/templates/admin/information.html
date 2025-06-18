@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+    <title>个人信息</title>
+    <link href="/img/favicon.ico" rel="icon" type="image/ico">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="/css/style.min.css" rel="stylesheet">
+</head>
+<style>
+    .card {
+        height: 800px;
+    }
+
+    .info {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 10px;
+        height: 60px;
+        width: 60%;
+        position: relative;
+        left: 10%;
+    }
+
+    .label {
+        width: 100px;
+        font-weight: bold;
+        color: #0b0b0b;
+        font-size: 20px;
+
+    }
+
+    .value {
+        flex-grow: 1;
+    }
+
+    .left {
+        float: left;
+        height: 700px;
+        width: 40%;
+    }
+
+    .left img {
+        width: 100%;
+        height: 100%;
+        float: right;
+        position: relative;
+        top: 100px;
+
+    }
+
+    .right {
+        position: relative;
+        top: 200px;
+        width: 60%;
+        float: right;
+    }
+
+    button {
+        width: 110px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        bottom: 10%;
+        background: #00a1d6;
+        color: #fff;
+        border-color: #409eff;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+
+    .input-field {
+        left: 50px;
+        width: 300px;
+        background-color: #f0f0f0;
+        margin: 10px 0;
+        height: 55px;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: 15% 85%;
+        padding: 0 0.4rem;
+        position: relative;
+    }
+
+    .input-field input {
+        background: none;
+        outline: none;
+        border: none;
+        line-height: 1;
+        font-weight: 500;
+        font-size: 16px;
+        color: #333;
+    }
+</style>
+<body>
+<div class="lyear-layout-web">
+    <div class="lyear-layout-container">
+        <!--左侧导航-->
+        <aside class="lyear-layout-sidebar">
+            <!-- logo -->
+            <div class="sidebar-header" id="logo">
+                <a th:href="@{charset}"><img alt="LightYear" src="/img/logo-sidebar.png" title="LightYear"/></a>
+            </div>
+            <div class="lyear-layout-sidebar-scroll">
+                <nav class="sidebar-main">
+                    <ul class="nav nav-drawer">
+                        <li class="nav-item"><a th:href="@{charset}"><i class="mdi mdi-home"></i> 后台首页</a></li>
+                        <!-- 下面li标签设置为class="active open"则会展开-->
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="mdi mdi-palette"></i>账号管理</a>
+                            <ul class="nav nav-subnav">
+                                <!-- 下面li标签设置为class="active"则会选中-->
+                                <li><a th:href="@{listAdmins}">管理员管理</a></li>
+                                <li><a th:href="@{listEmploys}">员工管理</a></li>
+                                <li><a th:href="@{listUsers}">用户管理</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="mdi mdi-format-align-justify"></i>信息管理</a>
+                            <ul class="nav nav-subnav">
+                                <li><a th:href="@{listArticles}">新闻公告管理</a></li>
+                                <li><a th:href="@{listComplains}">意见反馈管理</a></li>
+                                <li><a th:href="@{listTopic}">用餐评价管理</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="mdi mdi-file-outline"></i>后勤管理</a>
+                            <ul class="nav nav-subnav">
+                                <li><a th:href="@{listRooms}">客房管理</a></li>
+                                <li><a th:href="@{listTabx}">餐桌管理</a></li>
+                                <li><a th:href="@{listFoods}">食品管理</a></li>
+                                <li><a th:href="@{listBuy}">采购管理</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item nav-item-has-subnav">
+                            <a href="javascript:void(0)"><i class="mdi mdi-language-javascript"></i>财务管理</a>
+                            <ul class="nav nav-subnav">
+                                <li><a th:href="@{listBookings}">收支管理</a></li>
+                                <li><a th:href="@{listOrders}">食品订单</a></li>
+                                <li><a th:href="@{listRoomorders}">客房订单</a></li>
+                                <li><a th:href="@{listHist}">消费记录</a></li>
+
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+                <div class="sidebar-footer">
+                    <p class="copyright">Copyright &copy; 2023 </p>
+                </div>
+            </div>
+        </aside>
+        <!--End 左侧导航-->
+
+        <!--头部信息-->
+        <header class="lyear-layout-header">
+            <nav class="navbar navbar-default">
+                <div class="topbar">
+
+                    <div class="topbar-left">
+                        <div class="lyear-aside-toggler">
+                            <span class="lyear-toggler-bar"></span>
+                            <span class="lyear-toggler-bar"></span>
+                            <span class="lyear-toggler-bar"></span>
+                        </div>
+                        <span class="navbar-page-title"> 个人信息 </span>
+                    </div>
+                    <ul class="topbar-right">
+                        <li class="dropdown dropdown-profile">
+                            <a data-toggle="dropdown" href="javascript:void(0)">
+                                <img alt="笔下光年" class="img-avatar img-avatar-48 m-r-10" src="/img/avatar.jpg"/>
+                                欢迎：<span th:text="${session.admin.username}">请登录<span class="caret"></span></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-right">
+                                <li><a th:href="@{listInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                                <li><a th:href="@{/Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!--End 头部信息-->
+
+        <!--页面主要内容-->
+        <main class="lyear-layout-content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form class="row" method="post" th:action="@{modifyInformation}">
+                                    <div class="left">
+                                        <img src="/img/front/index/阿斯托尔福(1).jpg"
+                                             style="width: 300px;height: 500px">
+                                    </div>
+                                    <div class="right" th:href="@{listInformation}">
+                                        <div class="info">
+                                            <div class="label">姓名：</div>
+                                            <div class="input-field">
+                                                <i class="fas fa-user"></i>
+                                                <input id="username" name="username"
+                                                       th:value="${myinfo.username}"/>
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <div class="label">密码：</div>
+                                            <div class="input-field">
+                                                <i class="fas fa-user"></i>
+                                                <input id="password" name="password"
+                                                       th:value="${myinfo.password}"/>
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <div class="label">真实姓名：</div>
+                                            <div class="input-field">
+                                                <i class="fas fa-user"></i>
+                                                <input id="realname" name="realname"
+                                                       th:value="${myinfo.realname}"/>
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <div class="label">联系方式：</div>
+                                            <div class="input-field">
+                                                <i class="fas fa-user"></i>
+                                                <input id="contact" name="contact"
+                                                       th:value="${myinfo.contact}"/>
+                                            </div>
+                                        </div>
+                                        <div class="info">
+                                            <div class="label">注册时间：</div>
+                                            <div class="input-field">
+                                                <i class="fas fa-user"></i>
+                                                <input id="addtime" name="addtime"
+                                                       th:value="${#dates.format(myinfo.addtime,'yyyy-MM-dd')}"
+                                                       readonly/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button type="submit" id="refreshButton">修改信息</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--End 页面主要内容-->
+    </div>
+</div>
+
+<script src="/js/jquery.min.js" type="text/javascript"></script>
+<script src="/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/js/perfect-scrollbar.min.js" type="text/javascript"></script>
+<script src="/js/Chart.js" type="text/javascript"></script>
+<script src="/js/main.min.js" type="text/javascript"></script>
+
+<script th:inline="javascript">
+    var isModify = [[${isModify}]];
+    if (isModify === true) {
+        alert('修改成功！');
+    } else if (isModify === false) {
+        alert('修改失败！');
+    }
+</script>
+<script th:inline="javascript">
+    document.getElementById('refreshButton').addEventListener('click', function () {
+        location.reload(true);
+    });
+</script>
+</body>
+</html>

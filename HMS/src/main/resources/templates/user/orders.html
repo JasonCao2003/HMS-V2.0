@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>客房预订</title>
+    <meta content="Free Bootstrap Theme" name="description">
+    <meta content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+          name="keywords">
+
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<!--    <style>-->
+<!--        #translate{-->
+<!--            margin: 0 70px 0 auto;-->
+<!--            position: relative;-->
+<!--            float: right;-->
+<!--            top: -1430px;-->
+<!--        }-->
+<!--        .translateSelectLanguage{-->
+<!--            width: 124px;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+
+<!-- START: header -->
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<header class="probootstrap-header" role="banner">
+    <!-- <div class="container"> -->
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{userhome}"><img alt="Free Bootstrap Template"
+                                                                           height="33"
+                                                                           src="/front/img/LightYearLogo.png"
+                                                                           width="120"></a>
+
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li><a th:href="@{userhome}">Home</a></li>
+                <li class="active"><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{userhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticleLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        欢迎：<span th:text="${session.user.username}">请登录<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="extra-text visible-xs">
+                <a class="probootstrap-burger-menu" href="#"><i>Menu</i></a>
+                <h5>Connect With Us</h5>
+                <ul class="social-buttons">
+                    <li><a href="#"><i class="icon-twitter"></i></a></li>
+                    <li><a href="#"><i class="icon-facebook2"></i></a></li>
+                    <li><a href="#"><i class="icon-instagram2"></i></a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <!-- </div> -->
+</header>
+<!-- END: header -->
+
+
+<section class="probootstrap-section">
+    <div class="container">
+        <div class="row probootstrap-gutter40">
+            <div class="col-md-8">
+                <h2 class="mt0">食品预订</h2>
+                <form class="probootstrap-form" method="post" th:action="@{reserveFood}" onsubmit="return submitGo()">
+                    <div class="form-group">
+                        <label for="employid">餐品名称</label>
+                        <div class="form-field">
+                            <i class="icon icon-chevron-down"></i>
+                            <select class="form-control" id="employid" name="employid">
+                                <option th:each="option : ${foods}" th:text="${option.foodsname}"
+                                        th:value="${option.foodsid}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="orderdate">预定时间</label>
+                                <div class="form-field">
+                                    <!--                                    <i class="icon icon-calendar2"></i>-->
+                                    <input class="form-control" id="orderdate" name="orderdate" type="date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sectionx">时间段</label>
+                                <div class="form-field">
+                                    <!--                                    <i class="icon icon-calendar2"></i>-->
+                                    <input class="form-control" id="sectionx" name="sectionx" type="date">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="adults">数量</label>
+                                <div class="form-field">
+                                    <i class="icon icon-chevron-down"></i>
+                                    <select class="form-control" id="adults" name="num">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="price">单价</label>
+                                <div class="form-field">
+                                    <input class="form-control" id="price" name="price" readonly th:value="${price}"
+                                           type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input class="btn btn-primary btn-lg" id="submit" name="submit" type="submit" value="预定">
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <h2 class="mt0">反馈</h2>
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感谢您选择留宿精选！我们重视每一位客人的意见和建议。请您在下方留下宝贵的反馈，帮助我们不断提升服务质量，让您的下一次入住更加完美。感谢您的支持与信任！</p>
+                <p><a class="btn btn-primary" role="button" th:href="@{goUserComplains}">去反馈</a></p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 静态宣传 -->
+<section class="probootstrap-half">
+    <div class="image" style="background-image: url(/front/img/slider_2.jpg);"></div>
+    <div class="text">
+        <div class="probootstrap-animate fadeInUp probootstrap-animated">
+            <h2 class="mt0">最好的五星级酒店</h2>
+            <div class="row">
+                <div class="col-md-9">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;奢华雅致，梦幻之境。留宿精选，五星享受。在这里，宾至如归，尽享心意随行的奢华定制。品味人生，感受温馨。选择我们，是选择品质生活的完美注解。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="/front/js/scripts.min.js"></script>
+<script src="/front/js/main.min.js"></script>
+<script src="/front/js/custom.js"></script>
+<script th:inline="javascript">
+    var isReserve = [[${isAdd}]];
+    if (isReserve === true) {
+        alert('预定成功！');
+    } else if (isReserve === false) {
+        alert('预定失败！');
+    }
+</script>
+<script>
+    const startDateInput = document.getElementById('orderdate');
+    const endDateInput = document.getElementById('sectionx');
+
+    // 获取当前日期
+    const currentDate = new Date();
+
+    // 将当前日期增加一天
+    currentDate.setDate(currentDate.getDate());
+
+    // 获取增加一天后的年、月、日
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const day = String(currentDate.getDate()).padStart(2, '0');
+
+    // 构建日期字符串
+    const tomorrow = `${year}-${month}-${day}`;
+
+    // 将 startDateInput 的 value 设置为明天的日期
+    startDateInput.value = tomorrow;
+
+    // 设置 startDateInput 的最小值为当前日期
+    startDateInput.min = currentDate.toISOString().split('T')[0];
+
+    startDateInput.addEventListener('change', updateEndDateMin);
+
+    // 在页面加载完成后调用 updateEndDateMin 函数来更新 endDateInput 的最小值
+    document.addEventListener('DOMContentLoaded', updateEndDateMin);
+
+    function updateEndDateMin() {
+        const startDateValue = new Date(startDateInput.value);
+        const selectedDate = new Date(startDateValue.getFullYear(), startDateValue.getMonth(), startDateValue.getDate());
+        const currentDateOnly = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate());
+
+        if (selectedDate.getTime() < currentDateOnly.getTime()) {
+            // 如果选择的开始日期早于当前日期，将开始日期重置为当前日期
+            startDateInput.value = tomorrow;
+        }
+
+        endDateInput.min = startDateInput.value;
+    }
+
+    document.querySelector('#sectionx').value = document.querySelector('#orderdate').value
+</script>
+<script th:inline="javascript">
+    function submitGo() {
+        var gnl = confirm("确定要提交?");
+        if (gnl === true) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

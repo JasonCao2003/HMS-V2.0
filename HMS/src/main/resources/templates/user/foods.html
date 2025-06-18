@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>关于</title>
+    <meta content="Free Bootstrap Theme" name="description">
+    <meta content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+          name="keywords">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<!--    <style>-->
+<!--        #translate{-->
+<!--            margin: 0 70px 0 auto;-->
+<!--            position: relative;-->
+<!--            float: right;-->
+<!--            top: -1430px;-->
+<!--        }-->
+<!--        .translateSelectLanguage{-->
+<!--            width: 124px;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+
+<body>
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<!-- 首部开始 -->
+<header class="probootstrap-header" role="banner">
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{home}"><img alt="Free Bootstrap Template" height="33"
+                                                                       src="/front/img/LightYearLogo.png"
+                                                                       width="120"></a>
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li><a th:href="@{userhome}">Home</a></li>
+                <li class="active"><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{userhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticleLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        欢迎：<span th:text="${session.user.username}">请登录<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<!-- 介绍图 -->
+<section class="probootstrap-slider flexslider probootstrap-inner">
+    <ul class="slides">
+        <li class="overlay" style="background-image: url(/front/img/slider_1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate">美味的食物</h1>
+                            <div class="probootstrap-animate probootstrap-sub-wrap">
+                                奢华雅致，梦幻之境。留宿精选，五星享受。在这里，宾至如归，尽享心意随行的奢华定制。品味人生，感受温馨。选择我们，是选择品质生活的完美注解。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+
+<section class="probootstrap-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12" th:each="food, iterStat : ${foods}" th:if="${iterStat.index < 6}">
+                <div class="probootstrap-food">
+                    <a href="#" th:href="${food.foodsid}">
+                        <img alt="" class="img-responsive" src="" th:src="${food.image}">
+                    </a>
+                    <div class="text">
+                        <h3 th:text="${food.foodsname}"></h3>
+                        <p th:text="${food.price} + '￥/份'"></p>
+                        <div class="post-meta mb30">
+                            <ul>
+                                <li>
+                                    <span class="review-rate" th:text="${food.hits}"></span>
+                                    <i class="icon-star" th:text="${food.sellnum}+'次'"></i>
+                                </li>
+                                <li><span th:text="${food.contents}"></span></li>
+                            </ul>
+                        </div>
+                        <p>
+                            <a class="btn btn-primary"
+                               role="button" th:href="@{goReserveFood(foodsname=${food.foodsname},price=${food.price})}"
+                               th:text="预定"></a>
+                            <!--                            <a class="btn" role="button" th:text="查看评价"></a>-->
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 更多选择 -->
+<section class="probootstrap-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 probootstrap-relative">
+                <h3 class="mt0 mb30">更多选择</h3>
+                <ul class="probootstrap-owl-navigation absolute right">
+                    <li><a class="probootstrap-owl-prev" href="#"><i class="icon-chevron-thin-left"></i></a></li>
+                    <li><a class="probootstrap-owl-next" href="#"><i class="icon-chevron-thin-right"></i></a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 probootstrap-relative">
+                <div class="owl-carousel owl-carousel-carousel">
+                    <div class="item" th:each="food, iterStat : ${foods}" th:if="${iterStat.index}">
+                        <div class="probootstrap-food">
+                            <a href="#"><img class="img-responsive" th:src="${food.image}"></a>
+                            <div class="text">
+                                <h3 th:text="${food.foodsname}">Room Name</h3>
+                                <p th:text="${food.price} + '￥/份'">Price</p>
+                                <div class="post-meta mb30">
+                                    <ul>
+                                        <li><span class="review-rate" th:text="${food.hits}"></span> <i
+                                                class="icon-star"></i>
+                                            <span th:text="${food.sellnum}+'次'"></span></li>
+                                        <li><span th:text="${food.contents}">3</span></li>
+                                    </ul>
+                                </div>
+                                <p>
+                                    <a class="btn btn-primary"
+                                       role="button"
+                                       th:href="@{goReserveFood(foodsname=${food.foodsname},price=${food.price})}"
+                                       th:text="预定"></a>
+                                    <!--                            <a class="btn" role="button" th:text="查看评价"></a>-->
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="/front/js/scripts.min.js"></script>
+<script src="/front/js/main.min.js"></script>
+<script src="/front/js/custom.js"></script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

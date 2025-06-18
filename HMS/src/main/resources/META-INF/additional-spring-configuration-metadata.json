@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "name": "alipay.url",
+      "type": "java.lang.String",
+      "description": "Description for alipay.url."
+    },
+    {
+      "name": "alipay.appid",
+      "type": "java.lang.String",
+      "description": "Description for alipay.appid."
+    },
+    {
+      "name": "alipay.privateKey",
+      "type": "java.lang.String",
+      "description": "Description for alipay.privateKey."
+    },
+    {
+      "name": "alipay.publicKey",
+      "type": "java.lang.String",
+      "description": "Description for alipay.publicKey."
+    },
+    {
+      "name": "alipay.notifyUrl",
+      "type": "java.lang.String",
+      "description": "Description for alipay.notifyUrl."
+    },
+    {
+      "name": "alipay.returnUrl",
+      "type": "java.lang.String",
+      "description": "Description for alipay.returnUrl."
+    }
+  ] }

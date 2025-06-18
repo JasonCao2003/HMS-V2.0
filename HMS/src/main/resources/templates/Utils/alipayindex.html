@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body{
+            background-color: rgba(237, 237, 237, 0.8);
+        }
+        .header{
+            height: 60px;
+            background-color: #0080ff;
+            color: #fff;
+        }
+        .header h2{
+            margin: auto auto 0 240px;
+            position: relative;
+            top: 20px;
+        }
+        form{
+            margin: 40px 0 80px 0;
+        }
+        .payContent{
+            margin: 20px auto;
+            width: 900px;
+        }
+        .payHead{
+            width: 100%;
+            height: 30px;
+            background-image: linear-gradient(to top right, rgba(255, 255, 255, 1), rgb(117, 172, 255, 1));
+            align-content: center;
+            border: 1px solid darkgrey;
+            text-indent: 1rem;
+            color: rgb(133, 133, 133);
+        }
+        .payBody{
+            height: 400px;
+            background-color: #fff;
+        }
+        .payWaste{
+            margin: 0px auto 0 20px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: 550;
+        }
+        .price{
+            width: 120px;
+            text-align: right;
+            border: 0;
+            color: orangered;
+            font-size: 40px;
+        }
+        .payType{
+            margin: 20px 0;
+            height: 60px;
+            background-color: rgb(255, 253, 156);
+            padding: 20px;
+        }
+        .msg{
+            margin: 10px 20px 0 0;
+            position: relative;
+            width: 150px;
+            float: left;
+        }
+        .aliChose{
+            position: relative;
+            width: 120px;
+            float: left;
+        }
+        .aliChose input{
+            margin: 0;
+            position: relative;
+            bottom: 20px;
+        }
+        .aliChose img{
+            margin: 0 0 0 10px;
+            width: 80px;
+            height: 50px;
+        }
+        .payDetails{
+            position: relative;
+            margin: 20px auto;
+            padding: 10px;
+            width: 40%;
+            height: 240px;
+            /* background-color: skyblue; */
+        }
+        table{
+            margin: 20px 0 auto 0;
+            width: 360px;
+            border: 1px solid grey;
+        }
+        table , td {
+            border: 1px solid grey;
+            border-collapse: collapse;
+        }
+        table input{
+            border: 0;
+        }
+        td:nth-child(1){
+            width: 120px;
+            height: 30px;
+            text-align: center;
+            background-color: rgb(226, 226, 226);
+        }
+        td:nth-child(2){
+            width: 240px;
+        }
+        .payConfirm{
+            margin: 10px 130px 10px 130px;
+            padding: 10px;
+            width: 100px;
+            height: 20px;
+            background-color: coral;
+            color: #fff;
+            border: 0;
+        }
+        .payConfirm input{
+            padding: 0;
+            width: 100px;
+            text-align: center;
+            background-color: coral;
+            border: 0;
+            font-size: 15px;
+            color: #fff;
+        }
+        .foot{
+            height: 326px;
+            background-color: #fff;
+        }
+        .footHead{
+            height: 20px;
+            border-bottom: 2px solid grey;
+        }
+        .footMid{
+            height: 203px;
+        }
+        .midTitle{
+            width: 200px;
+            position: relative;
+            float: left;
+            font-size: 40px;
+            font-weight: 700;
+            color: rgb(226, 16, 16);
+            margin: 73px auto 73px 300px;
+        }
+        .midConChild{
+            position: relative;
+            padding: 20px;
+            float: left;
+            width: 120px;
+            height: 140px;
+            /* background-color: black; */
+            border-left: 1px solid grey;
+            margin: 31.5px auto auto 60px;
+            line-height: 30px;
+            font-weight: 500;
+        }
+        .footEnd{
+            height: 40px;
+            background-color: #333;
+            color: #ccc;
+            font-size: 16px;
+            padding: 30px;
+            position: relative;
+        }
+        .endMsg{
+            width: 480px;
+            height: 22px;
+            text-align: center;
+            margin: 0px 562px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>光 年 酒 店 | 支 付</h2>
+    </div>
+    <form th:action="@{/create}" method="post">
+        <div class="payContent">
+            <div class="payHead">订单确认</div>
+            <div class="payBody">
+                <div class="payWaste">消费金额：<input type="text" name="price" class="price" value="" th:value="${total}">元</div>
+                <div class="payType">
+                    <div class="msg">选择你的支付方式：</div>
+                    <div class="aliChose">
+                        <input type="radio">
+                        <img src="/img/alipay.jpg" alt="" title="支付宝">
+                    </div>
+                </div>
+                <div class="payDetails">
+                    <table>
+                        <tr>
+                            <td class="payName">订单编号</td>
+                            <td><input type="text" name="id" th:value="${code}"></td>
+                        </tr>
+                        <tr>
+                            <td class="payContent">订单标题</td>
+                            <td><input type="text" name="title" th:value="${title}"></td>
+                        </tr>
+                    </table>
+                    <div style="height: 20px;"></div>
+                    <div class="payConfirm">
+                        <input type="submit" value="确认订单">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="foot">
+        <div class="footHead"></div>
+        <div class="footMid">
+            <div class="midTitle">光年酒店</div>
+            <div class="midContent">
+                <div class="midConChild">
+                    <span style="font-size: 22px;font-weight: 600;">商业合作</span>
+                    <br>立即协商
+                    <br>合作协议
+                    <br>流程须知
+                </div>
+                <div class="midConChild">
+                    <span style="font-size: 22px;font-weight: 600;">支付方式</span>
+                    <br>支付宝
+                    <br>敬请期待
+                    <!-- <br>流程须知 -->
+                </div>
+                <div class="midConChild">
+                    <span style="font-size: 22px;font-weight: 600;">特色服务</span>
+                    <br>贴心客服
+                    <br>条件完善
+                    <br>快速入住
+                </div>
+                <div class="midConChild">
+                    <span style="font-size: 22px;font-weight: 600;width: 0px;">联系我们</span>
+                    <br>邮箱：2304333942@qq.com
+                    <br><div>服务热线：19282900506</div>
+                </div>
+            </div>
+        </div>
+        <div class="footEnd">
+            <div class="endMsg">Xi'an University of Posts and Telecommunications</div>
+            <div class="endMsg">School of Computer Science Software Engineering Program</div>
+        </div>
+    </div>
+</body>
+<script>
+    document.querySelector('.aliChose').addEventListener('click',() => {
+        if(!document.querySelector('.aliChose input').checked){
+            document.querySelector('.aliChose input').checked = true
+        }else if(document.querySelector('.aliChose input').checked){
+            document.querySelector('.aliChose input').checked = false
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>我的订单</title>
+    <meta content="Free Bootstrap Theme" name="description">
+    <meta content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+          name="keywords">
+
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <!--    <link href="/css/bootstrap.min.css" rel="stylesheet">-->
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<!--    <style>-->
+<!--        #translate{-->
+<!--            margin: 0 70px 0 auto;-->
+<!--            position: relative;-->
+<!--            float: right;-->
+<!--            top: -1430px;-->
+<!--        }-->
+<!--        .translateSelectLanguage{-->
+<!--            width: 124px;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+
+<style>
+    .dropdown-menu > li > a {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: 400;
+        line-height: 1.42857143;
+        color: #333;
+        white-space: nowrap;
+    }
+
+    .card-body {
+        width: 60%;
+        position: relative;
+        left: 20%;
+        color: #000;
+        font-size: 18px;
+    }
+
+</style>
+
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<!-- START: header -->
+<header class="probootstrap-header" role="banner">
+    <!-- <div class="container"> -->
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{userhome}"><img alt="Free Bootstrap Template" height="33"
+                                                                           src="/front/img/LightYearLogo.png"
+                                                                           width="120"></a>
+
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li><a th:href="@{userhome}">Home</a></li>
+                <li><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{userhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticlesLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        欢迎：<span th:text="${session.user.username}">请登录<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- </div> -->
+</header>
+
+<section class="probootstrap-slider flexslider probootstrap-inner">
+    <ul class="slides">
+        <li class="overlay" style="background-image: url(/front/img/slider_1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate">我的订单</h1>
+                            <div class="probootstrap-animate probootstrap-sub-wrap">
+                                无论您是来品尝美食还是寻找理想住宿，我们的团队将全力以赴为您提供热情友好的服务。我们期待为您创造美好的回忆，为您带来愉快和满意的体验。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+<!-- END: header -->
+
+
+<div class="card-body">
+    <H2>食品订单</H2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 10%">订单编号</th>
+                <!--                <th style="width: 10%">餐品名称</th>-->
+                <th style="width: 10%">总价</th>
+                <th style="width: 10%">状态</th>
+                <th style="width: 10%">用餐时间</th>
+                <th style="width: 10%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order:${orders}">
+                <td th:text="${order.ordercode}"></td>
+                <!--                <td th:text="${order.foodsid}"></td>-->
+                <td th:text="${order.total}"></td>
+                <td th:text="${order.status}"></td>
+                <td th:text="${#dates.format(order.orderdate,'yyyy-MM-dd')}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-xs btn-default" data-toggle="tooltip"
+                           th:href="@{pay(total=${order.total})}"
+                           title="支付"><i
+                                class="mdi mdi-pencil"></i>
+                        </a>
+                        <a class="btn btn-xs btn-default" data-toggle="tooltip"
+                           href="javascript:"
+                           th:onclick="'IsDetermine('+${order.ordersid}+')'"
+                           title="取消"><i class="mdi mdi-window-close"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <script>
+                var tdElements = document.querySelectorAll('td');
+                tdElements.forEach(function (tdElement) {
+                    var roomsId = parseInt(tdElement.textContent);
+                    if (roomsId === 1) {
+                        tdElement.textContent = '宫保鸡丁';
+                    } else if (roomsId === 2) {
+                        tdElement.textContent = '意大利面';
+                    } else if (roomsId === 3) {
+                        tdElement.textContent = '寿司';
+                    } else if (roomsId === 4) {
+                        tdElement.textContent = '石锅拌饭';
+                    } else if (roomsId === 5) {
+                        tdElement.textContent = '巧克力蛋糕';
+                    } else if (roomsId === 5) {
+                        tdElement.textContent = '糖醋里脊';
+                    }
+                });
+            </script>
+            <script>
+                function IsDetermine(id) {
+                    if (window.confirm('确定要取消吗？')) {
+                        location.href = '/cancelOrders?id=' + id;
+                    }
+                }
+            </script>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="card-body">
+    <H2>客房订单</H2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 10%">订单编号</th>
+                <th style="width: 10%">客房类型</th>
+                <th style="width: 10%">总价</th>
+                <th style="width: 10%">状态</th>
+                <th style="width: 10%">入住时间</th>
+                <th style="width: 10%">预计退房时间</th>
+                <th style="width: 10%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order:${roomorders}">
+                <td th:text="${order.ordercode}"></td>
+                <td th:text="${order.roomsid}"></td>
+                <td th:text="${order.total}"></td>
+                <td th:text="${order.status}"></td>
+                <td th:text="${#dates.format(order.thestart,'yyyy-MM-dd')}"></td>
+                <td th:text="${#dates.format(order.theend,'yyyy-MM-dd')}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-xs btn-default" data-toggle="tooltip"
+                           th:href="@{pay(total=${order.total})}"
+                           title="支付"><i
+                                class="mdi mdi-pencil"></i>
+                        </a>
+                        <a class="btn btn-xs btn-default" data-toggle="tooltip"
+                           href="javascript:"
+                           th:onclick="'IsDetermine1('+${order.roomordersid}+')'"
+                           title="取消"><i class="mdi mdi-window-close"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            <script>
+                var tdElements = document.querySelectorAll('td');
+                tdElements.forEach(function (tdElement) {
+                    var roomsId = parseInt(tdElement.textContent);
+                    if (roomsId === 1) {
+                        tdElement.textContent = '标准房';
+                    } else if (roomsId === 2) {
+                        tdElement.textContent = '单人间';
+                    } else if (roomsId === 3) {
+                        tdElement.textContent = '套房';
+                    } else if (roomsId === 4) {
+                        tdElement.textContent = '豪华间';
+                    } else if (roomsId === 5) {
+                        tdElement.textContent = '家庭房';
+                    }
+                });
+            </script>
+            <script>
+                function IsDetermine1(id) {
+                    if (window.confirm('确定要取消吗？')) {
+                        location.href = '/cancelRoomOrders?id=' + id;
+                    }
+                }
+            </script>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div style="height: 150px">
+
+</div>
+<script src="/front/js/scripts.min.js"></script>
+<script src="/front/js/main.min.js"></script>
+<script src="/front/js/custom.js"></script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=0" name="viewport">
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+    <title>3D地图</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font: 12px/16px Verdana, Helvetica, Arial, sans-serif;
+            width: 100%;
+            height: 100%
+        }
+    </style>
+    <script>
+        window._AMapSecurityConfig = {
+            securityJsCode: "0392aa4a177e2106777ff0b1d2d4fcb6"
+        };
+    </script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=3157fd8461ac66e5c8a417452e3c865b&plugin=AMap.Driving"
+            type="text/javascript"></script>
+</head>
+<body>
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<!-- 头部开始 -->
+<header class="probootstrap-header" role="banner">
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{userhome}"><img alt="Free Bootstrap Template"
+                                                                           height="33"
+                                                                           src="/front/img/LightYearLogo.png"
+                                                                           width="120"></a>
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li><a th:href="@{userhome}">Home</a></li>
+                <li><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{userhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li class="active"><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticleLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        欢迎：<span th:text="${session.user.username}">请登录<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<div id="container" style="width:100%; height:89%;resize:both;"></div>
+<script language="javascript">
+    var map;
+
+    function mapInit() {
+        map = new AMap.Map('container', {
+            rotateEnable: true,
+            pitchEnable: true,
+            zoom: 17,
+            pitch: 50,
+            rotation: -15,
+            viewMode: '3D', //开启3D视图,默认为关闭
+            zooms: [2, 20],
+            center: [108.907068, 34.15437]
+        });
+
+        var controlBar = new AMap.ControlBar({
+            position: {
+                right: '10px',
+                top: '10px'
+            }
+        });
+        controlBar.addTo(map);
+
+        var toolBar = new AMap.ToolBar({
+            position: {
+                right: '40px',
+                top: '110px'
+            }
+        });
+        toolBar.addTo(map);
+    }
+
+    mapInit()
+</script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

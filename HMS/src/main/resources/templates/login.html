@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <script crossorigin="anonymous" src="https://kit.fontawesome.com/64d58efce2.js"></script>
+    <link href="/css/login.css" rel="stylesheet" type="text/css"/>
+    <title>登录表单</title>
+</head>
+
+<body>
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="forms-container">
+        <div class="signin-signup">
+            <form class="sign-in-form" method="post" th:action="@{userLogin}">
+                <h2 class="title">顾客登录</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input id="username" name="username" placeholder="用户名" type="text"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input id="password" name="password" placeholder="密码" type="password"/>
+                </div>
+                <div class="input-field" >
+                    <i class="fa fa-minus-circle"></i>
+                    <input id="code" name="code" placeholder="验证码" type="text"/>
+                    <img style="margin: 0 0; padding: 0 0;width: 200px; height: 55px; position:absolute; right: 0px; top: 0px" class="input-field" id="num" onclick="changeImageCode()" th:src="@{generateImageCode}" >
+                </div>
+                <script>
+                    function changeImageCode() {
+                        document.getElementById('num').src = '[[@{generateImageCode}]]?' + (new Date()).getTime()
+                    }
+                </script>
+                <div>
+                    <input class="btn solid" type="submit" value="登 录"/>
+                </div>
+                <p class="social-text">第三方授权登录</p>
+                <div>
+                    <div class="social-media" style="position: relative;float: left">
+                        <a href="https://gitee.com/oauth/authorize?client_id=388cdaad68bd5ff2b46a47bbddd59161398a8163846d64c87fb270cb98b70380&redirect_uri=http://localhost:8080/callback&response_type=code&state=1" class="social-icon" title="git登录">
+                            <i class="fab fa-git"></i>
+                        </a>
+                    </div>
+                    <div class="social-media" style="position: relative; float: right">
+                        <a th:href="@{/gofaceidenty}" class="social-icon" title="人脸识别登录">
+                            <i class="fa fa-user-circle"></i>
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            <form class="sign-up-form" th:action="@{adminLogin}">
+                <h2 class="title">管理员登录</h2>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <input id="adminusername" name="username" placeholder="用户名" type="text"/>
+                </div>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <input id="adminpassword" name="password" placeholder="密码" type="password"/>
+                </div>
+                <input class="btn" type="submit" value="登 录"/>
+            </form>
+        </div>
+    </div>
+
+    <div class="panels-container">
+        <div class="panel left-panel" style="position: relative; top: -50px">
+
+            <div class="content">
+                <div><button class="btn transparent" id="sign-up-btn">管理员登录</button></div>
+                <div><a th:href="@{userhome}"><button class="btn transparent" style="position: relative; top: 10px">游客访问</button></a></div>
+                <div><a th:href="@{register}"><button class="btn transparent" style="position: relative; top: 20px">用户注册</button></a></div>
+            </div>
+        </div>
+        <div class="panel right-panel">
+            <div class="content">
+                <h3>顾客？</h3>
+                <p>如果非管理员身份，请使用顾客登录。</p>
+                <button class="btn transparent" id="sign-in-btn">切换至顾客登录</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/login.js"></script>
+
+<!--三方登录-github-->
+<script>
+
+    document.querySelector('.githubLogin').addEventListener('click',function(event){
+        // 禁止页面自动刷新
+        event.preventDefault();
+        const client_id = '907448';
+
+        const authorize_uri = 'https://github.com/login/oauth/authorize';
+        const redirect_uri = 'http://localhost:8080/oauth/redirect';
+
+        const link = document.querySelector('.githubLogin');
+        /*    function githubLogin(){
+                // location.href= `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
+                location.href= 'www.baidu.com'
+            }*/
+        console.log(`${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`)
+        location.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`
+        // link.href = `${authorize_uri}?client_id=${client_id}&redirect_uri=${redirect_uri}`;
+    })
+
+</script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>
+

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>拍照上传</title>
+    <link href="/camera/camera.css" rel="stylesheet" type="text/css"/>
+    <!-- 引入axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style>
+        body{
+            background-color: skyblue;
+        }
+        .header{
+            height: 70px;
+            margin: 0;
+            text-align: center;
+            background-color: #00bbff;
+            color: #fff;
+        }
+        .header h2{
+            margin: 0;
+            position: relative;
+            top: 20px;
+            padding: 0;
+            height: 30px;
+            word-spacing: 5px;
+            align-content: center;
+        }
+        @keyframes rotate {
+            to {
+                transform: rotate(1turn);
+            }
+        }
+        .viBorder{
+            position: relative;
+            width: 0px;
+            height: 0px;
+            border-top: 520px solid yellow;
+            border-right: 520px solid green;
+            border-bottom: 520px solid red;
+            border-left: 520px solid blueviolet;
+            left: -260px;
+            top: -260px;
+            animation: rotate 4s linear infinite;
+        }
+        .video-panel{
+            position: relative;
+            width: 520px;
+            height: 520px;
+            margin: 50px auto 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+        }
+        .video-panel > .video{
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            top: 0;
+            margin: 10px;
+            border-radius: 10px;
+            background-size: cover;
+            background-color: #fff;
+        }
+        .tips {
+            position: fixed;
+            z-index: 99;
+            width: 240px;
+            height: 60px;
+            border-radius: 30px;
+            background-color: #fff;
+            margin: 300px 500px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .icon {
+            width: 60px;
+            height: 60px;
+            position: relative;
+            float: left;
+            background-color: green;
+            border-radius: 30px;
+            font-size: 40px;
+            color: #fff;
+            text-align: center;
+            align-content: center;
+        }
+
+        .tipMsg {
+            width: 180px;
+            height: 60px;
+            text-align: center;
+            align-content: center;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body onload="initializeCamera()">
+<div class="header"><h2>正在进行人脸验证，请正视相机并轻微左右摆头</h2></div>
+<div class="tips">
+    <div class="icon"></div>
+    <div class="tipMsg"></div>
+</div>
+<!--请将您的脸部正面放置于下方提示区域。验证通过后将自动登录-->
+<div class="video-panel">
+    <div class="viBorder"></div>
+    <!-- 显示摄像头拍摄到的视频 -->
+    <video id="video" class="video" autoplay="autoplay"></video>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+    let video = document.getElementById("video");
+    let canvas = document.createElement("canvas");
+    canvas.width = 500;
+    canvas.height = 500;
+    let ctx = canvas.getContext('2d');
+    let autoUploadInterval;
+    let requestCount = 0;
+    const MAX_REQUESTS = 200;
+
+    function initializeCamera() {
+        let constraints = {
+            video: { width: 500, height: 500 },
+            audio: false
+        };
+        navigator.mediaDevices.getUserMedia(constraints)
+            .then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+                startAutoUpload();
+            })
+            .catch(function(error) {
+                console.error('getUserMedia error: ', error);
+            });
+    }
+
+    function startAutoUpload() {
+        autoUploadInterval = setInterval(function() {
+            captureImageAndUpload();
+        }, 300);
+    }
+
+    function captureImageAndUpload() {
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        let jpegData = canvas.toDataURL('image/jpeg', 0.9);
+        sendImageDataToServer(jpegData);
+    }
+
+    function sendImageDataToServer(imageData) {
+        let formData = new FormData();
+        formData.append('imageData', imageData);
+        axios.post("/userFaceLogin", formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
+            .then(function (response) {
+                if (response.data.redirect) {
+                    document.querySelector('.icon').innerHTML = '√'
+                    document.querySelector('.icon').style.backgroundColor = 'green'
+                    document.querySelector('.tipMsg').innerHTML = '验证成功~正在登入...'
+                    document.querySelector('.tips').style.opacity = 1
+                    // console.log('http://localhost:8080' + response.data.redirect);
+                    clearInterval(autoUploadInterval); // 停止自动上传
+                    setTimeout(function fn(){
+                        window.location.href = 'http://localhost:8080' + response.data.redirect; // 确保URL以http://开头
+                    },1000)
+                } else if (requestCount >= MAX_REQUESTS) {
+                    document.querySelector('.icon').style.backgroundColor = 'red'
+                    document.querySelector('.icon').innerHTML = 'X'
+                    document.querySelector('.tipMsg').innerHTML = '验证有误~请重试!'
+                    document.querySelector('.tips').style.opacity = 1
+                    clearInterval(autoUploadInterval); // 停止自动上传
+                    window.location.href = 'http://localhost:8080/login';
+                }
+            })
+            .catch(function (error) {
+                console.dir(error);
+                clearInterval(autoUploadInterval); // 停止自动上传
+            });
+        requestCount++;
+    }
+    initializeCamera();
+</script>
+</body>
+</html>

@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>反馈</title>
+    <meta content="Free Bootstrap Theme" name="description">
+    <meta content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+          name="keywords">
+
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<!--    <style>-->
+<!--        #translate{-->
+<!--            margin: 0 70px 0 auto;-->
+<!--            position: relative;-->
+<!--            float: right;-->
+<!--            top: -1430px;-->
+<!--        }-->
+<!--        .translateSelectLanguage{-->
+<!--            width: 124px;-->
+<!--        }-->
+<!--    </style>-->
+</head>
+<body>
+<style>
+    .input-field select {
+        background: none;
+        outline: none;
+        border: none;
+    }
+    .info {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin-bottom: 10px;
+        height: 60px;
+        width: 60%;
+        position: relative;
+        left: 10%;
+    }
+
+    .label {
+        width: 100px;
+        font-weight: bold;
+        color: #0b0b0b;
+        font-size: 20px;
+
+    }
+
+    .value {
+        flex-grow: 1;
+    }
+
+    .left{
+        float: left;
+        height: 700px;
+        width: 40%;
+    }
+    .left img{
+        width: 100%;
+        height: 100%;
+        float: right;
+        position: relative;
+        top: 100px;
+
+    }
+    .right{
+        position: relative;
+        top: 200px;
+        width: 60%;
+        float: right;
+    }
+    button{
+        width: 110px;
+        height: 50px;
+        position: absolute;
+        left: 50%;
+        background: #00a1d6;
+        color: #fff;
+        border-color: #409eff;
+        font-size: 16px;
+        border-radius: 10px;
+    }
+    .input-field {
+        left: 50px;
+        width: 70%;
+        background-color: #f0f0f0;
+        margin: 10px 0;
+        height: 55px;
+        border-radius: 30px;
+        display: grid;
+        grid-template-columns: 15% 85%;
+        padding: 0 0.4rem;
+        position: relative;
+    }
+    .input-field input {
+        background: none;
+        outline: none;
+        border: none;
+        line-height: 1;
+        font-weight: 500;
+        font-size: 16px;
+        color: #333;
+    }
+    /*    添加的个人信息CSS，可删除*/
+
+    section > .container {
+        background-color: #ffffff;
+        padding: 20px;
+        display: flex;
+        margin: 0 auto;
+        /*min-width: 700px;*/
+        max-width: 1000px;
+        border-radius: 2px;
+        height: 600px;
+    }
+
+    .my-nav {
+        width: 200px;
+        border-right: 1px solid #f0f0f0;
+        list-style: none;
+    }
+
+    .my-nav li {
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        padding-left: 20px;
+        font-size: 14px;
+    }
+
+    .my-nav li.active {
+        background-color: #e9f7fe;
+        color: #448ef7;
+        border-right: 4px solid #448ef7;
+        font-weight: 600;
+    }
+
+    .content{
+        display: none;
+        padding-top: 10px;
+        padding-left: 40px;
+        flex: 1;
+        justify-content: space-evenly;
+    }
+    .content.active{
+        display: flex;
+    }
+
+    .content .title {
+        font-size: 20px;
+        margin-bottom: 30px;
+    }
+
+    .content .info-wrap {
+        margin-right: 20px;
+    }
+
+    .content .avatar-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        /* flex: 1; */
+        padding-top: 55px;
+        width: 200px;
+    }
+
+    .content .avatar-box .avatar-title {
+        font-size: 16px;
+        text-align: left;
+        align-self: flex-start;
+        margin: 0;
+    }
+
+    .content .avatar-box .prew {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        margin-bottom: 15px;
+    }
+
+    .content .avatar-box label {
+        width: 100px;
+        height: 30px;
+        transition: all .3s;
+        box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+        cursor: pointer;
+        font-size: 14px;
+        border-radius: 2px;
+        color: rgba(0, 0, 0, .85);
+        border: 1px solid #d9d9d9;
+        text-align: center;
+        line-height: 30px;
+    }
+
+    .content .avatar-box label:hover {
+        color: #40a9ff;
+        border-color: #40a9ff;
+        background: #fff;
+    }
+
+    .content .avatar-box #upload {
+        display: none;
+    }
+
+
+
+    .content .user-form label:not(.male-label) {
+        display: block;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
+    .content .user-form .form-item {
+        margin-bottom: 20px;
+    }
+
+    .content .user-form .form-item .male-label {
+        margin-right: 20px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .content .user-form input[type=radio] {
+        margin-right: 10px;
+        outline: none;
+        background-size: contain;
+        border: 1px solid rgba(0, 0, 0, .25);
+        border-radius: 50%;
+        box-sizing: border-box;
+        width: 16px;
+        height: 16px;
+        appearance: none;
+
+    }
+
+
+
+    .content .user-form input[type=radio]:checked {
+        border-radius: 50%;
+        border-color: #0d6efd;
+        background-color: #0d6efd;
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
+    }
+
+
+
+    .content .user-form input:not([type=radio]) {
+        height: 30px;
+        appearance: none;
+    }
+
+
+    .form-item input:not([type=radio]),
+    textarea {
+        display: block;
+        width: 330px;
+        outline: none;
+        font-size: 14px;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+        transition: all .3s;
+        padding-left: 5px;
+    }
+
+    .content .user-form textarea {
+        padding-top: 10px;
+        width: 350px;
+        resize: none;
+    }
+
+
+
+    .content .user-form input:focus,
+    textarea:focus {
+        border-color: #40a9ff;
+        border-right-width: 1px;
+        z-index: 1;
+        border-color: #40a9ff;
+        box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+        border-right-width: 1px;
+        outline: 0;
+    }
+
+    .content .user-form button.submit {
+        background: #4D8FF7;
+        width: 78px;
+        height: 32px;
+        color: white;
+        text-align: center;
+        line-height: 32px;
+        font-size: 14px;
+        color: #FFFFFF;
+        letter-spacing: 0;
+        font-weight: 500;
+        border: none;
+        cursor: pointer;
+    }
+
+    .toast {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .toast .toast-body {
+        padding: 0 !important;
+    }
+
+    .toast .alert-success {
+        margin-bottom: 0 !important;
+    }
+
+    /*    摄像头*/
+    .cameraWindow {
+        display: none;
+        width: 1000px;
+        height: 500px;
+        border-radius: 10px;
+        background-color: #eee;
+        margin: 150px auto;
+        padding: 40px 40px;
+        text-align: center;
+    }
+
+    .h2 {
+        margin: 0px 130px;
+    }
+
+    .tip {
+        text-align: center;
+        width: 400px;
+        margin: 20px 300px;
+    }
+
+    .openCam {
+        /* background-color: #fdfdfd; */
+        border: 0;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .video {
+        width: 400px;
+        height: 400px;
+        float: left;
+    }
+
+    .pho {
+        width: 400px;
+        height: 400px;
+        float: right;
+    }
+    .canForm {
+        width: 1000px;
+        height: 440px;
+        position: relative;
+        bottom: 0;
+    }
+    .msg {
+        position: absolute;
+        bottom: 0;
+    }
+    .msgSub {
+        width: 240px;
+        margin: 0px 380px;
+    }
+</style>
+<!-- START: header -->
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<header class="probootstrap-header" role="banner">
+    <!-- <div class="container"> -->
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{userhome}"><img alt="Free Bootstrap Template"
+                                                                           height="33"
+                                                                           src="/front/img/LightYearLogo.png"
+                                                                           width="120"></a>
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li><a th:href="@{userhome}">Home</a></li>
+                <li><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{useruserhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticleLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        欢迎：<span th:text="${session.user.username}">请登录<span class="caret"></span></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <!-- </div> -->
+</header>
+<!-- END: header -->
+
+<section class="probootstrap-slider flexslider probootstrap-inner">
+    <ul class="slides">
+        <li class="overlay" style="background-image: url(/front/img/slider_1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate">个人信息</h1>
+                            <div class="probootstrap-animate probootstrap-sub-wrap">
+                                欢迎来到我们的酒店预订网站！我们的个人界面旨在为您提供便捷、个性化的预订体验。在这里，您可以轻松浏览各种酒店选项，根据您的偏好和预算筛选出最合适的住宿方案。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+<section>
+    <div class="container">
+        <ul class="my-nav">
+            <li class="active" data-id="1">基本设置</li>
+            <li data-id="2">安全设置</li>
+            <li data-id="3">我的订单</li>
+            <li data-id="4">新消息通知</li>
+        </ul>
+        <div class="con">
+            <div class="content active" data-id="1">
+                <div class="info-wrap">
+                    <h3 class="title">基本设置</h3>
+                    <form class="user-form" method="post" th:action="@{modifyUserInformation}">
+                        <div class="form-item">
+                            <label for="contact">联系方式</label>
+                            <input id="contact" name="contact" class="contact" type="text" placeholder="请输入联系方式"  th:value="${myuserinfo.contact}" autocomplete="off">
+                        </div>
+                        <div class="form-item">
+                            <label for="realname">姓名</label>
+                            <input id="realname" name="realname" class="nickname" type="text" placeholder="请输入姓名"
+                                   th:value="${myuserinfo.realname}"
+                                   autocomplete="off">
+                        </div>
+                        <div class="form-item" id="sex-tab">
+                            <label>性别</label>
+                            <input class="myGender" th:value="${myuserinfo.sex}" id="sex" name="sex" style="display: none">
+                            <label class="male-label"><input type="radio"  name="sex" class="gender" value="男">男</label>
+                            <label class="male-label"><input type="radio" name="sex" class="gender" value="女">女</label>
+                            <label class="male-label"><input type="radio" name="sex" class="gender" value="">未选择</label>
+                        </div>
+                        <div class="form-item">
+                            <label>生日</label>
+                            <input id="birthday" name="birthday" class="birthday" type="text" placeholder="还未填写生日" th:value="${#dates.format(myuserinfo.birthday,'yyyy-MM-dd')}" autocomplete="off">
+                        </div>
+                        <br>
+                        <button class="submit" type="submit" onclick="IsDetermine()" id="refreshButton">提交</button>
+                    </form>
+                </div>
+                <div class="avatar-box">
+                    <h4 class="avatar-title">头像</h4>
+                    <img class="prew" th:src="${myuserinfo.imgstr}">
+                    <a th:href="@{goCamera}"><label class="userPhoto">更换头像</label></a>
+                    <input id="upload" type="file" class="upload">
+                </div>
+            </div>
+            <div class="content" data-id="2">
+                <div class="info-wrap">
+                    <h3 class="title">安全设置</h3>
+                    <form class="user-form" th:action="@{emailIdentify}">
+                        <div class="form-item">
+                            <label for="contact">账号（不可修改）</label>
+                            <input style="display: none" name="usersid" th:value="${myuserinfo.usersid}">
+                            <input id="username" name="username" class="contact" type="text" th:value="${myuserinfo.username}" autocomplete="off" disabled>
+                        </div>
+                        <div class="form-item">
+                            <label for="password">密码（原密码已加密）</label>
+                            <input id="password" name="password" class="password" type="password" th:value="${myuserinfo.password}"
+                                   autocomplete="off">
+                            <!--                            <label for="nickname">确认密码</label>-->
+                            <!--                            <input id="passwordConfirm" name="passwordComfirm" class="passwordConfirm" type="password"-->
+                            <!--                                   autocomplete="off">-->
+                        </div>
+                        <div style="width: 100%;height: 100px"></div>
+                        <button class="submit">修改</button>
+                    </form>
+                </div>
+            </div>
+            <div class="content" data-id="3">333333333333333
+            </div>
+            <div class="content" data-id="4">44444444444444444444444444</div>
+        </div>
+    </div>
+</section>
+<div style="height: 150px">
+
+</div>
+
+<!--性别单选框-->
+<script>
+    const male = document.querySelectorAll('.gender')
+    let myGender = document.querySelector('.myGender').value
+    console.log(myGender)
+    const arr = myGender.split(',')
+    const mySex = arr[arr.length-1]
+    if (!mySex){
+        male[2].checked = true
+    }else if (mySex === '女'){
+        male[1].checked = true
+    }else if(mySex === '男'){
+        male[0].checked = true
+    }
+
+
+    const sexTab = document.querySelector('#sex-tab')
+    sexTab.addEventListener('click',(event) => {
+        // console.log(event)
+        myGender = event.target.attributes[3].value
+        // console.log(myGender)
+    })
+</script>
+<!--tab栏切换-->
+<script>
+    document.querySelector('.my-nav').addEventListener('click',(event)=>{
+        // console.log(event)
+        if (event.target.nodeName === 'LI'){
+            // console.log(event.target.dataset)
+            // console.log(document.querySelector('.con .active'))
+            document.querySelector('.my-nav .active').classList.remove('active')
+            event.target.classList.add('active')
+            document.querySelector('.con .active').classList.remove('active')
+            document.querySelector(`.con [data-id = '${event.target.dataset.id}']`).classList.add('active')
+        }
+    })
+</script>
+<script src="/front/js/scripts.min.js"></script>
+<script src="/front/js/main.min.js"></script>
+<script src="/front/js/custom.js"></script>
+<script th:inline="javascript">
+    var isModify = [[${isModify}]];
+    if (isModify === true) {
+        alert('修改成功！');
+    } else if (isModify === false) {
+        alert('修改失败！');
+    }
+</script>
+<script>
+    function IsDetermine() {
+        const confirmed = window.confirm('确定要修改吗？未修改请勿点击确定');
+        if (confirmed) {
+            location.href = '/modifyUserInformation';
+        }
+        return false;
+    }
+</script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

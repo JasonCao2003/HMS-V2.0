@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>首页</title>
+    <meta content="Free Bootstrap Theme" name="description">
+    <meta content="free website templates, free bootstrap themes, free template, free bootstrap, free website template"
+          name="keywords">
+    <link href="https://fonts.googleapis.com/css?family=Crimson+Text:300,400,700|Rubik:300,400,700,900"
+          rel="stylesheet">
+    <link href="/front/css/styles-merged.css" rel="stylesheet">
+    <link href="/front/css/style.min.css" rel="stylesheet">
+    <link href="/front/css/custom.css" rel="stylesheet">
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<!--    <style>-->
+<!--        #translate{-->
+<!--            margin: 0 70px 0 auto;-->
+<!--            position: relative;-->
+<!--            float: right;-->
+<!--            top: -1430px;-->
+<!--        }-->
+<!--        .translateSelectLanguage{-->
+<!--            width: 124px;-->
+<!--        }-->
+<!--    </style>-->
+    <script>
+        window._AMapSecurityConfig = {securityJsCode: "0392aa4a177e2106777ff0b1d2d4fcb6"};
+    </script>
+    <script src="https://webapi.amap.com/maps?v=2.0&key=3157fd8461ac66e5c8a417452e3c865b&plugin=AMap.Driving"
+            type="text/javascript"></script>
+</head>
+
+<body>
+<!--翻译-->
+<div style="position: relative ;right: 30px">
+    <div style="width: 210px;position: relative;float: right;">
+        <div class="ignore">
+            <a href="javascript:translate.changeLanguage('english');">English</a>|
+            <a href="javascript:translate.changeLanguage('chinese_simplified');">简体中文</a>|
+            <a href="javascript:translate.changeLanguage('chinese_traditional');">繁體中文</a>
+        </div>
+    </div>
+</div>
+<!-- 头部开始 -->
+<header class="probootstrap-header" role="banner">
+    <div class="row">
+        <a class="probootstrap-logo visible-xs" th:href="@{userhome}"><img alt="Free Bootstrap Template"
+                                                                           height="33"
+                                                                           src="/front/img/LightYearLogo.png"
+                                                                           width="120"></a>
+        <a class="probootstrap-burger-menu visible-xs" href="#"><i>Menu</i></a>
+        <div class="mobile-menu-overlay"></div>
+        <nav class="probootstrap-nav hidden-xs" role="navigation">
+            <ul class="probootstrap-main-nav">
+                <li class="active"><a th:href="@{userhome}">Home</a></li>
+                <li><a th:href="@{frontFoodsLists}">Foods</a></li>
+                <li><a th:href="@{frontRoomsLists}">Rooms</a></li>
+                <li class="hidden-xs probootstrap-logo-center"><a th:href="@{userhome}"><img
+                        alt="Free Bootstrap Template" height="50" src="/front/img/LightYearLogo.png" width="181"></a>
+                </li>
+                <li><a th:href="@{goLightYear}">Map</a></li>
+                <li><a th:href="@{frontArticleLists}">Article</a></li>
+                <li><a th:href="@{goUserComplains}">Complains</a></li>
+                <li class="dropdown dropdown-profile">
+                    <a data-toggle="dropdown" href="javascript:void(0)">
+                        <span th:if="${session.user != null}" th:text="${'欢迎：'+session.user.username}"><span
+                                class="caret"></span></span>
+                        <span th:unless="${session.user != null}"><a th:href="@{login}">请登录</a></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <li><a th:href="@{listUserInformation}"><i class="mdi mdi-account"></i> 个人信息</a></li>
+                        <li><a th:href="@{myorderlist}"><i class="mdi mdi-food"></i> 我的订单</a></li>
+                        <li><a th:href="@{listMyComplains}"><i class="mdi mdi-message-processing"></i> 我的反馈</a></li>
+                        <li><a th:href="@{listMyTopic}"><i class="mdi mdi-message-text"></i> 我的评价</a></li>
+                        <li><a th:href="@{Logout}"><i class="mdi mdi-logout-variant"></i> 退出登录</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+
+<!--  主页轮播图-->
+<section class="probootstrap-slider flexslider">
+    <ul class="slides">
+        <li class="overlay" style="background-image: url(/front/img/slider_1.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate">欢迎来到光年酒店</h1>
+                            <div class="probootstrap-animate probootstrap-sub-wrap">
+                                奢华雅致，梦幻之境。留宿精选，五星享受。在这里，宾至如归，尽享心意随行的奢华定制。品味人生，感受温馨。选择我们，是选择品质生活的完美注解。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="overlay" style="background-image: url(/front/img/slider_2.jpg);">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="probootstrap-slider-text text-center">
+                            <h1 class="probootstrap-heading probootstrap-animate">享受奢华的体验</h1>
+                            <div class="probootstrap-animate probootstrap-sub-wrap">
+                                奢华雅致，梦幻之境。留宿精选，五星享受。在这里，宾至如归，尽享心意随行的奢华定制。品味人生，感受温馨。选择我们，是选择品质生活的完美注解。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+</section>
+
+
+<!--订购指示-->
+<section class="probootstrap-cta probootstrap-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="probootstrap-cta-heading">立即为您和您的家人订购 <span> &mdash; 远离城市的喧嚣.</span></h2>
+                <div class="probootstrap-cta-button-wrap"><a class="btn btn-primary"
+                                                             th:href="@{goReserveRoom(roomsno=${null})}">立即订购</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 亮点介绍 -->
+<section class="probootstrap-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 mb50 text-center probootstrap-animate">
+                <h2 class="mt0">为什么选择我们？</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-heart2"></i> <span>奢华雅致，尽在此处</span></h3>
+                <p>
+                    在这个奢华雅致的角落，我们为您打造了一场别致的入住体验。从精心设计的空间到无微不至的服务，尽在此处，让您感受到身临其境的宾至如归之感。</p>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-rocket"></i> <span>梦幻之境，尽在酒店</span></h3>
+                <p>
+                    这里是一片梦幻之境，酒店如同一个独特的梦境，等待着您的到来。在这个充满惊喜和温馨的空间里，您将发现属于自己的私人天堂。</p>
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-image"></i> <span>享受奢华，感受温馨</span></h3>
+                <p>
+                    在这里，我们用心为您提供一场奢华的享受，每一个温馨的细节都被精心雕琢。在这个宛如家的地方，您将感受到别样的宾至如归之感。</p>
+            </div>
+
+            <div class="clearfix visible-lg-block visible-md-block"></div>
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-briefcase"></i> <span>宾至如归，豪华定制</span></h3>
+                <p>
+                    客人如亲人般的款待，每一次的入住都是一场豪华的定制体验。我们为您精心准备，只为让您在这里度过一段难忘的时光。</p>
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-chat"></i> <span>五星享受，心意随行</span></h3>
+                <p>
+                    五星级的享受，随时随地。在这里，您不仅能感受到豪华的服务，更能体验到心意随行的贴心呵护，让您尽情享受每一刻。</p>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12 probootstrap-animate">
+                <h3 class="heading-with-icon"><i class="icon-colours"></i> <span>品味人生，留宿精选</span></h3>
+                <p>这里不仅是您的落脚之地，更是品味人生的绝佳选择。留宿精选酒店，让您感受到品质生活的精致和舒适</p>
+            </div>
+            <div class="clearfix visible-lg-block visible-md-block visible-sm-block"></div>
+        </div>
+    </div>
+</section>
+
+
+<!-- 服务介绍 -->
+<section class="probootstrap-section">
+    <div class="container">
+        <div class="row mb30">
+            <div class="col-md-8 col-md-offset-2 probootstrap-section-heading text-center">
+                <h2>探索我们的服务</h2>
+            </div>
+        </div>
+        <!--   跳转客房预订界面   -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="service left-icon probootstrap-animate">
+                    <div class="icon">
+                        <img alt="Free HTML5 Bootstrap Template" class="svg"
+                             src="/front/img/flaticon/svg/001-building.svg">
+                    </div>
+                    <div class="text">
+                        <h3>酒店客房</h3>
+                        <p>高效便捷的自助服务，干净可靠的产品体验， 房间内的灯光、空调、窗帘等设备。</p>
+                        <p><a class="link-with-icon" th:href="@{frontRoomsLists}">了解更多 <i
+                                class=" icon-chevron-right"></i></a></p>
+                    </div>
+                </div>
+            </div>
+            <!--   跳转食品预定界面     -->
+            <div class="col-md-4">
+                <div class="service left-icon probootstrap-animate">
+                    <div class="icon">
+                        <img alt="Free HTML5 Bootstrap Template" class="svg"
+                             src="/front/img/flaticon/svg/003-restaurant.svg">
+                    </div>
+                    <div class="text">
+                        <h3>食品 &amp; 饮料 </h3>
+                        <p>一城一味的特色早餐，亲切友善的社区式服务</p>
+                        <p><a class="link-with-icon" th:href="@{frontFoodsLists}">了解更多 <i
+                                class=" icon-chevron-right"></i></a></p>
+                    </div>
+                </div>
+            </div>
+            <!--    跳转地图服务    -->
+            <div class="col-md-4">
+                <div class="service left-icon probootstrap-animate">
+                    <div class="icon">
+                        <img alt="Free HTML5 Bootstrap Template" class="svg"
+                             src="/front/img/flaticon/svg/004-parking.svg">
+                    </div>
+                    <div class="text">
+                        <h3>路线导航</h3>
+                        <p>亲切友善的社区式服务， 光年酒店一站式满足国民出行需求。</p>
+                        <p><a class="link-with-icon" th:href="@{goLightYear}">了解更多 <i
+                                class=" icon-chevron-right"></i></a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div style="width: 100% ; height: 500px;">
+    <div id="container" style="width:86%; height:100%;left: 7%;resize:both;"></div>
+</div>
+
+
+<!-- START: footer -->
+<footer class="probootstrap-footer" role="contentinfo">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="probootstrap-footer-widget">
+                    <p class="mt40"><img alt="Free HTML5 Bootstrap Template" height="33"
+                                         src="/front/img/LightYearLogo.png"
+                                         width="120"></p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;高效便捷的自助服务，干净可靠的产品体验，
+                        房间内的灯光、空调、窗帘等设备。
+                        一城一味的特色早餐，亲切友善的社区式服务，
+                        光年酒店一站式满足国民出行需求，
+                        是全国人民出行的首选酒店。</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="probootstrap-footer-widget">
+                    <h3>联系我们</h3>
+                    <ul class="probootstrap-contact-info">
+                        <li><i class="icon-location2"></i> <span>西安市长安区西长安街618号</span></li>
+                        <li><i class="icon-mail"></i><span>ailaries@gmail.com</span></li>
+                        <li><i class="icon-phone2"></i><span>029-88166105</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- END: footer -->
+
+<script src="/front/js/scripts.min.js"></script>
+<script src="/front/js/main.min.js"></script>
+<script src="/front/js/custom.js"></script>
+<script>
+    var map;
+
+    function mapInit() {
+        map = new AMap.Map('container', {
+            rotateEnable: true,
+            pitchEnable: true,
+            zoom: 17,
+            pitch: 50,
+            rotation: -15,
+            viewMode: '3D', //开启3D视图,默认为关闭
+            zooms: [2, 20],
+            center: [108.907068, 34.15437]
+        });
+
+        var controlBar = new AMap.ControlBar({
+            position: {
+                right: '10px',
+                top: '10px'
+            }
+        });
+        controlBar.addTo(map);
+
+        var toolBar = new AMap.ToolBar({
+            position: {
+                right: '40px',
+                top: '110px'
+            }
+        });
+        toolBar.addTo(map);
+    }
+
+    mapInit()
+</script>
+<script src="https://cdn.staticfile.net/translate.js/3.2.1/translate.js"></script>
+<script>
+    translate.language.setLocal('chinese_simplified');
+    translate.service.use('client.edge');
+    translate.execute();//进行翻译
+</script>
+</body>
+</html>

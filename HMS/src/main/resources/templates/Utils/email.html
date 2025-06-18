@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>邮箱注册登陆Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            height: 100vh;
+            background: url(/img/YoRHa.jpg) no-repeat;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            width: 350px;
+            height: 350px;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            border-left: 1px solid rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            border-right: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(5px);
+            background: rgba(50,50,50,0.2);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        .box > h2 {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+        }
+
+        .box .input-box {
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        .box .input-box label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 5px;
+        }
+
+        .box .input-box input {
+            letter-spacing: 1px;
+            font-size: 14px;
+            box-sizing: border-box;
+            width: 250px;
+            height: 35px;
+            border-radius: 5px;
+            border: 1px solid rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.2);
+            outline: none;
+            padding: 0 12px;
+            color: rgba(255,255,255,0.9);
+            transition: 0.2s;
+        }
+
+        .box .input-box input:focus {
+            border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .box .btn-box {
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
+
+        .box .btn-box > a {
+            outline: none;
+            display: block;
+            width: 250px;
+            text-align: end;
+            text-decoration: none;
+            font-size: 13px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .box .btn-box > a:hover {
+            color: rgba(255,255,255,1);
+        }
+
+        .box .btn-box > div {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box .btn-box > div > button {
+            outline: none;
+            margin-top: 10px;
+            display: block;
+            font-size: 14px;
+            border-radius: 5px;
+            transition: 0.2s;
+        }
+
+        .box .btn-box > div > button:nth-of-type(1) {
+            width: 120px;
+            height: 35px;
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(192, 119, 91, 0.7);
+            background: rgba(192, 119, 91, 0.5);
+        }
+
+        .box .btn-box > div > button:nth-of-type(2) {
+            width: 120px;
+            height: 35px;
+            margin-left: 10px;
+            color: rgba(255,255,255,0.9);
+            border: 1px solid rgba(192, 119, 91, 0.7);
+            background: rgba(192, 119, 91, 0.5);
+        }
+
+        .box .btn-box > div > button:hover {
+            border: 1px solid rgba(251, 128, 71, 0.7);
+            background: rgba(251, 128, 71, 0.5);
+        }
+        .getIndex{
+            position: absolute;
+            right: 55px;
+        }
+        .getIndex button{
+            border: 0;
+            background-color: transparent;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="box">
+    <!-- Page Title -->
+    <h2 class="">邮箱验证</h2>
+    <!--  Register form -->
+    <div class="input-box">
+        <label>邮箱</label>
+        <input type="email" class="radius" name="email" id="emailAd">
+        <div class="getIndex"><button type="button" onclick="sendMessage()" id="sendCode">免费获取验证码</button></div>
+    </div>
+    <form method="post" action="">
+        <div class="input-box" style="display: none">
+            <label>验证登陆邮箱</label>
+            <input type="text" class="radiusAgain" name="email" id="email">
+        </div>
+
+        <div class="input-box">
+            <label>验证码</label>
+            <input type="text" class="radius" id="code" name="code">
+        </div>
+
+        <div class="btn-box">
+            <div style="margin: auto 65px 0 65px"><button type="button" onclick="tologin()">验证</button></div>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script type="text/javascript" src="/js/jquery-2.1.0.js" ></script>
+<script type="text/javascript" src="/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+<script>
+    document.querySelector('#sendCode').addEventListener('click',function(){
+        console.log(document.querySelector('.radius').value)
+        document.querySelector('.radiusAgain').value = document.querySelector('.radius').value
+        console.log(document.querySelector('.radiusAgain').value)
+    })
+</script>
+<script type="text/javascript">
+
+
+    function sendMessage()
+    {
+        let emailAd=document.getElementById("emailAd");
+        if(emailAd.value==="")
+        {
+            alert("邮箱不能为空");
+            return ;
+        }
+        let email_reg=/^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        if(!email_reg.test(emailAd.value))
+        {
+            alert("请输入正确的邮箱地址");
+            return ;
+        }
+
+        // 将 emailAd 的值赋给 email 元素
+        let email = document.getElementById("email");
+        email.value = emailAd.value;
+        // let time = 60
+        // setTimeout(function(){
+        //     time--
+        //     document.querySelector('#sendCode').innerHTML = `${time} 秒后重新获取`
+        // },1000)
+        $.post("/getCode",{"email":emailAd.value},function (data) {
+            console.log(data)
+            if(data)
+            {
+                var wait = 60;
+                var button=document.getElementById("sendCode");
+                (function time(o) {
+                    if (wait === 0) {
+                        o.disabled=false;
+                        o.innerHTML = "免费获取验证码";
+                        wait = 60;
+                    } else {
+                        o.disabled=true;
+                        o.innerHTML = wait + "秒后可以重新发送";
+                        wait--;
+                        setTimeout(function() {
+                            time(o)
+                        }, 1000)
+                    }
+                })(button);
+            }
+        });
+    }
+
+    function tologin()
+    {
+        var email=document.getElementById("email");
+        var code=document.getElementById("code");
+        if(code.value==="")
+        {
+            alert("验证码不能为空");
+            return ;
+        }
+        $.post("/modifyUserPassword",{"email":email.value,"code":code.value},function (data) {
+            if (data){
+                window.location.href = "/selectUserInformation";
+            }
+            else{
+                window.location.href= "/error.html";
+            }
+        });
+    }
+</script>
+</body>
+</html>

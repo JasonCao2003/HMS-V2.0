@@ -1,0 +1,241 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>拍照上传</title>
+	<link href="/camera/camera.css" rel="stylesheet" type="text/css" />
+	<script crossorigin="anonymous" src="https://kit.fontawesome.com/64d58efce2.js"></script>
+</head>
+<style>
+	*{
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
+	body{
+		background-image: url(/img/bg.jpg);
+		background-size: cover;
+	}
+	.cameraWindow {
+		display: none;
+		width: 70%;
+		height: 90%;
+		margin: 5% 15%;
+		padding: 10px;
+		background-color: rgba(250, 250, 250, 0.6);
+		display: block;
+		text-align: center;
+		backdrop-filter: blur(5px);
+		border-radius: 20px;
+	}
+	.right{
+		position: relative;
+		float: right;
+		width: 40%;
+		padding: 100px 20px;
+	}
+	.tip{
+		margin: 30px auto;
+	}
+	.tip span{
+		font-size: 20px;
+	}
+	.tip input {
+		width: 50px;
+		height: 50px;
+		border-radius: 25px;
+		position: relative;
+		top: 15px;
+		cursor: pointer;
+	}
+	.tip input:hover {
+		width: 50px;
+		height: 50px;
+		border-radius: 25px;
+		position: relative;
+		top: 15px;
+		cursor: pointer;
+		background-color: red;
+		opacity: 1;
+		transition: 1s;
+	}
+	.tip button{
+		width: 80px;
+		height: 50px;
+		border-radius: 25px;
+		color: #fff;
+		font-size: 20px;
+		font-weight: 600;
+		position: relative;
+		top: 50px;
+		border: 0;
+		background-color: rgb(22, 189, 255);
+		cursor: pointer;
+	}
+	.left{
+		position: relative;
+		float: left;
+		width: 60%;
+		height: 90%;
+		border-radius: 20px;
+		/* background-color: #000; */
+	}
+	.video-panel , .video{
+		position: fixed;
+		width: 480px;
+		height: 560px;
+		border: 1px solid;
+		left: 10px;
+		border-radius: 20px;
+	}
+	.pho{
+		position: fixed;
+		width: 480px;
+		height: 560px;
+		/* background-color: #fff; */
+		left: 10px;
+		border-radius: 20px;
+	}
+	.msgSub{
+		border-radius: 10px;
+		text-align: center;
+		align-content: center;
+		width: 10%;
+		height: 6%;
+		position: fixed;
+		bottom: 3%;
+		left: 25%;
+		background-color: #ff7300;
+	}
+	.msgSub button{
+		border: 0;
+		background-color: #ff7300;
+		color: #fff;
+		font-size: 18px;
+		font-weight: 600;
+	}
+</style>
+
+<body>
+	<div class="cameraWindow">
+		<!-- <div class="tips" id="tips"></div> -->
+		<div class="right">
+			<div class="h1">
+				<h1>请注视摄像头</h1>
+			</div>
+			<div class="tip">
+				<span>请点击</span>
+				<input class="openCam" type="button" title="开启摄像头" onclick="getMedia()"/>
+				<span>获取摄像头权限</span>
+				<!-- 视频上的拍照按钮 -->
+				<button class="openCam" onclick="uploadImg()">拍 照</button>
+			</div>
+		</div>
+		<div class="left">
+			<div class="video-panel">
+				<!-- 显示摄像头拍摄到的视频 -->
+				<video id="video" class="video" autoplay="autoplay"></video>
+			</div>
+			<form class="canForm" method="post" th:action="@{/upload}">
+				<!-- 用于给video标签截图的画布 -->
+				<canvas class="pho" id="canvas"></canvas>
+				<div class="msg">
+					<!-- 用户id -->
+					<input type="hidden" name="id" th:value="${session.user.usersid}" id="id" />
+					<!-- 用户username -->
+					<input type="hidden" name="userId" th:value="${session.user.username}" id="username" />
+					<div class="msgSub">
+						<input class="sub" name="imgStr" value="" style="display: none;">
+						<button type="submit" class="openCam">提交</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="/camera/camera.js"></script>
+	<script>
+		let video = document.getElementById("video");
+		const cameraWindow = document.querySelector('.cameraWindow')
+		function getMedia() {
+			let constraints = {
+				video: { width: 480, height: 560 },
+				audio: true
+			};
+			let promise = navigator.mediaDevices.getUserMedia(constraints);
+			promise.then(function (MediaStream) {
+				video.srcObject = MediaStream;
+				video.play();
+			}).catch(function (PermissionDeniedError) {
+				console.log(PermissionDeniedError);
+			})
+		}
+
+
+		function uploadImg() {
+			var canvas = document.getElementById("canvas");
+			var video = document.getElementById("video");
+			if (0 === video.videoWidth) {
+				document.getElementById("tips").innerHTML = indexObj.tips;
+				return;
+			}
+			// 让canvas和视频一样宽高。
+			var w = video.videoWidth;
+			var h = video.videoHeight;
+			canvas.width = w;
+			canvas.height = h;
+
+			// 把video标签中的画面，画到canvas中。
+			var ctx = canvas.getContext('2d');
+			ctx.drawImage(video, 0, 0, w, h);
+			// 把canvas中的图像转换成png图片文件的Base64字符串。
+			var imgStr = canvas.toDataURL('image/png').split("base64,")[1];
+			// 获得用户ID
+			// var userId = document.getElementById("username").value;
+			document.querySelector('.sub').value = imgStr
+
+			// axios.post("/upload", {"userId":userId, "imgStr": imgStr})
+			//     .then(function(res){
+			//         console.log(res);
+			//         alert("上传成功")
+			//     }).catch(function(error){
+			//     console.error(error);
+			//     alert("失败");
+			// })
+			// 手写axios
+			/* function myAxios(config){
+						return new Promise((resolve, reject) => {
+							const xhr = new XMLHttpRequest()
+							xhr.open(config.method || 'GET', config.url)
+							xhr.addEventListener('loadend',()=>{
+								if(xhr.status >= 200 && xhr.status <300){
+									resolve(JSON.parse(xhr.response))
+								}else{
+									reject(new Error(xhr.response))
+								}
+							})
+							xhr.send()
+						})
+					}
+					myAxios({
+						url: 'http://localhost:8080/upload',
+						method:'post',
+						data:{
+							userId,
+							imgStr
+						}
+					}).then(result => {
+						console.log(result)
+					}).catch(err =>{
+						console.dir(err)
+					})*/
+		}
+	</script>
+	<script>
+		document.querySelector('button').addEventListener('click',function(){
+			document.querySelector('.video-panel').style.display = 'none'
+		})
+	</script>
+</body>
+
+</html>

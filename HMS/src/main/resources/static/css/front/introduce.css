@@ -1,0 +1,86 @@
+body {
+    /* background-image: url("../images/背景图.jpeg"); */
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.prev-button, .next-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.prev-button {
+    left: 10px;
+}
+
+.next-button {
+    right: 10px;
+}
+
+.auto {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 600px;
+    /* background-color: rgba(255, 255, 255, 0.342); */
+    display: flex;
+    justify-content: center;
+}
+
+.auto1 {
+    width: 100%;
+    height: 530px;
+    position: relative;
+}
+
+.autot1 {
+    float: right;
+    font-size: 30px;
+    color: #cecece;
+    margin: 14px;
+}
+
+.autot1 i {
+    font-size: 25px;
+}
+
+.autob {
+    width: 100%;
+    height: 470px;
+}
+
+.bz {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 470px;
+    overflow: hidden;
+    display: flex;
+    flex: auto;
+}
+
+.bz li {
+    display: flex;
+    position: relative;
+    float: left;
+    width: 20%;
+    height: 320px;
+    background-size: cover;
+    transition: 0.4s;
+}
+
+.bz:hover li {
+    width: 16%;
+}
+
+.bz li:hover {
+    width: 600px;
+}
