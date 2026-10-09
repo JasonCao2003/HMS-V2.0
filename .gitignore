@@ -1,0 +1,98 @@
+# ============================================================
+# HMS · 酒店管理系统  —  全局 .gitignore
+# ============================================================
+
+# ---------- 操作系统 ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---------- 编辑器 / IDE ----------
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.classpath
+.project
+.factorypath
+.apt_generated
+.springBeans
+.sts4-cache
+*.suo
+*.sw?
+.history/
+
+# ---------- Java (Spring Boot / Maven) ----------
+target/
+build/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+hs_err_pid*
+replay_pid*
+HELP.md
+
+# ---------- Python (人脸识别 / 订单预测) ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+ENV/
+.ipynb_checkpoints/
+*.ipynb.bak
+
+# 模型权重（体积较大，建议用 Git LFS 或独立存储）
+*.pth
+*.pt
+*.onnx
+*.h5
+*.ckpt
+*.safetensors
+# 如需把必要的小模型纳入版本管理，可在此放行
+!DataForcast/model.pth
+
+# 训练 / 缓存产物
+runs/
+outputs/
+checkpoints/
+weights/
+.pytest_cache/
+.mypy_cache/
+
+# ---------- 前端静态资源构建产物 ----------
+node_modules/
+dist/
+*.min.js.map
+*.min.css.map
+
+# ---------- 环境变量 / 敏感配置 ----------
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# ⚠️ 注意：HMS/src/main/resources/application.yml 含 MySQL 口令、
+# 邮箱授权码与支付宝密钥，请勿使用真实凭据提交；建议改用环境变量或配置模板。
+
+# ---------- 运行时数据 / 上传文件 ----------
+# 用户上传的图片目录（上传目录由 application.yml 中 photo.file.dir 指定）
+HMS/photo/
+FaceIdentify/received_image.jpg
+uploads/
+logs/
+*.log
