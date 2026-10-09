@@ -173,6 +173,13 @@
             <version>4.5.5-1</version>
         </dependency>
 
+        <!-- .env 文件加载：将敏感配置通过环境变量文件注入，避免硬编码 -->
+        <dependency>
+            <groupId>me.paulschwarz</groupId>
+            <artifactId>spring-dotenv</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -147,23 +147,40 @@ mysql -uroot -p -e "CREATE DATABASE hms DEFAULT CHARSET utf8mb4;"
 mysql -uroot -p hms < HMS/src/main/resources/others/sql/hms.sql
 ```
 
-### 2. 启动主系统 HMS
+### 2. 配置环境变量（脱敏）
+
+敏感配置已从 `application.yml` 中抽离，改由环境变量注入。项目通过
+[`spring-dotenv`](https://github.com/paulschwarz/spring-dotenv) 自动加载 **`HMS/.env`** 文件：
 
 ```bash
 cd HMS
+cp .env.example .env
+# 编辑 .env，填入真实的数据库口令、邮箱授权码、支付宝密钥等
+```
 
-# 按环境修改 src/main/resources/application.yml：
-#   - spring.datasource.druid.*   MySQL 连接
-#   - spring.redis.*              Redis 连接
-#   - photo.file.dir              上传图片保存目录（Windows 示例为绝对路径）
-#   - alipay.*                    支付宝沙箱配置
-#   - mail.*                      邮件服务
+`.env` 已被 `.gitignore` 忽略，**不会提交到仓库**；`.env.example` 作为变量清单提交。可用的变量：
 
+| 变量 | 说明 | 默认值 |
+| --- | --- | --- |
+| `SERVER_PORT` | 服务端口 | `8080` |
+| `PHOTO_FILE_DIR` | 上传图片保存目录 | `D:/Code/HMS/photo` |
+| `MYSQL_URL` / `MYSQL_USERNAME` / `MYSQL_PASSWORD` | MySQL 连接 | `localhost:3306/hms` / `root` / *(空)* |
+| `MAIL_HOST` / `MAIL_USERNAME` / `MAIL_PASSWORD` | 发件邮箱 | `smtp.qq.com` / *(空)* / *(空)* |
+| `REDIS_HOST` / `REDIS_PORT` / `REDIS_PASSWORD` / `REDIS_DATABASE` | Redis 连接 | `127.0.0.1` / `6379` / *(空)* / `0` |
+| `ALIPAY_URL` / `ALIPAY_APPID` / `ALIPAY_PRIVATE_KEY` / `ALIPAY_PUBLIC_KEY` | 支付宝沙箱 | *(沙箱网关)* / *(空)* / *(空)* / *(空)* |
+| `ALIPAY_NOTIFY_URL` / `ALIPAY_RETURN_URL` | 支付回调地址 | `http://localhost:8080/notify` / `.../return` |
+
+> 若不使用 `.env`，也可直接以操作系统环境变量（或 IDE Run Configuration 的 Environment variables）方式提供上述变量。
+
+### 3. 启动主系统 HMS
+
+```bash
+cd HMS
 ./mvnw spring-boot:run      # Windows: mvnw.cmd spring-boot:run
 # 默认地址 http://localhost:8080
 ```
 
-### 3. 启动人脸识别服务 FaceIdentify（可选，用于人脸登录）
+### 4. 启动人脸识别服务 FaceIdentify（可选，用于人脸登录）
 
 ```bash
 cd FaceIdentify
@@ -176,13 +193,17 @@ jupyter notebook faceidentify.ipynb
 > 人脸底库放在 `FaceIdentify/face_db/`，每人一个子目录存放照片。
 > 若使用 GPU，请确认已安装对应 CUDA 版 onnxruntime（notebook 中默认使用 `CUDAExecutionProvider`）。
 
-### 4. 运行订单预测 DataForcast（可选）
+### 5. 运行订单预测 DataForcast（可选）
 
 ```bash
 cd DataForcast
 pip install torch pandas pymysql
 
-# 先按需修改 notebook 中的 MySQL 连接信息，再运行
+# 数据库口令通过环境变量提供（避免硬编码），先复制并导出 .env：
+cp .env.example .env          # 编辑 .env 填入 MYSQL_PASSWORD
+set -a; source .env; set +a
+
+# 再运行 notebook
 jupyter notebook pytorch-95.ipynb
 ```
 
@@ -211,8 +232,9 @@ jupyter notebook pytorch-95.ipynb
 
 ## 安全提示
 
-- ⚠️ **敏感配置**：`HMS/src/main/resources/application.yml` 中包含 MySQL 口令、QQ 邮箱授权码以及支付宝沙箱私钥 / 公钥，**请勿使用真实生产凭据提交**，建议改用环境变量或配置模板。
-- 仓库中存在 `.ipynb_checkpoints/`、`photo/`、`received_image.jpg` 等运行 / 上传产物，已在 `.gitignore` 中忽略；如确需清理历史，可使用 `git rm -r --cached <path>`（见提交说明）。
+- ✅ **配置脱敏**：敏感配置（MySQL 口令、邮箱授权码、支付宝密钥等）已从 `application.yml` 中移除，统一通过环境变量 / `.env` 文件注入；`.env` 已被 `.gitignore` 忽略，仓库中仅保留不含真实值的 `.env.example` 模板。
+- ⚠️ **历史记录**：脱敏改造前，真实凭据曾出现在旧的 `application.yml` 中并进入 Git 历史。如该仓库曾公开，建议**立即轮换/作废**这些凭据（数据库口令、邮箱授权码、支付宝密钥）。
+- 仓库中存在 `.ipynb_checkpoints/`、`photo/`、`received_image.jpg` 等运行 / 上传产物，已在 `.gitignore` 中忽略；如确需从版本库清理历史，可使用 `git rm -r --cached <path>`（见提交说明）。
 - 内网地址（如人脸服务 `localhost:12345`）请根据实际部署环境调整。
 
 ---

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 
 # 启动项目自动打开浏览器
@@ -10,10 +10,10 @@ openProject:
     openUrl: http://localhost:${server.port}
 
 
-# 指定文件上传的路径
+# 指定文件上传的路径（可通过环境变量 PHOTO_FILE_DIR 覆盖）
 photo:
   file:
-    dir: D:\Code\HMS\photo
+    dir: ${PHOTO_FILE_DIR:D:/Code/HMS/photo}
 
 
 spring:
@@ -36,9 +36,9 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3306/hms?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: root
-      password: 123456
+      url: ${MYSQL_URL:jdbc:mysql://localhost:3306/hms?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true}
+      username: ${MYSQL_USERNAME:root}
+      password: ${MYSQL_PASSWORD:}
   servlet:
     multipart:
       max-file-size: 10MB
@@ -48,9 +48,9 @@ spring:
       static-locations: classpath:/static/, file:${photo.file.dir}
   # 邮箱验证 -- 未实现
   mail:
-    host: smtp.qq.com
-    username: 2764184496@qq.com
-    password: pfsqfbqhbzoedgdf
+    host: ${MAIL_HOST:smtp.qq.com}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -60,16 +60,17 @@ spring:
 
   # Redis缓存
   redis:
-    host: 127.0.0.1
-    port: 6379
-    password:
-    database: 0
+    host: ${REDIS_HOST:127.0.0.1}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+    database: ${REDIS_DATABASE:0}
     lettuce:
       pool:
         max-active: 32
         max-wait: 300ms
         max-idle: 16
         min-idle: 8
+
 
 
 
@@ -91,10 +92,9 @@ mybatis-plus:
 
 
 alipay:
-  url: https://openapi-sandbox.dl.alipaydev.com/gateway.do
-  appid: 9021000132688138
-  privateKey: MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCOFc2InbBk6KVIk+MlZFSyjp4iyVtcw0n2kESlgr67DSCZIeDYAIa2t7LKRGJ7M8A6XW/vHKSX6WPQaRcP9zh0ws2o8SMTyfs9npdluOCBlX7VoHYRARM/+rKdD+N59pWg4ESSWADsVIFq4bqZt5OLe41CjXwMeDE9n/2/+64ZHqxVhnrDvmigTtzg6W8rwzdRnlbpkGE7IAT0pb7JoxJsEmgH/dmNPRpEHpfAZ8VXj7DakBNJiHX2mCvp90YzbE5PfUSlAwtCRjNF6Qvylur8afWSKyHfw1XaeSNjQEnVfwO6+vARraDSTLpWabyGxElKBgKbw6evltuvw/Z5ZGrlAgMBAAECggEAKwxQCWQ9XVVfPm4QE/Qh9TdgkgmPtLs2XY24Pq0uPF3t0neBN/Bw4Esn0ECH1ewIAabtkvSKqbv8kdhFNIEiib27scPdbNF1XWX/WMJ6wsgYdYD4RI6e1nOOSifWM82R5/wKyov/O5se2tMpRglomooEcnWLb/u6b4FZ0CDgzpsYitBmEpxlFJJcltGPL+8XFkCpSHp4AFZjOEJkZZuSiRTR25+ssh70C9lxVnBRx7N4V0vIxNXJyPLTsG081HvJspjJgaaQRmhui8oYiUggpKv5RKgOarwjNfkWZ7v0On3ClHzH4A5IBtM0/ynID1VDxKWXCby1O1ySORZBAr6YwQKBgQDOqoH73fVlaPf5xQCCRFVqifsd7aSuD2QIHKes2ODWT40xBu4LsZGwxDydDM7t8s8kNH9Q6859uSPTexH31iu6XTUCoMhruzpoD1EUPMLVa7AC4laGdwbSJkltWag5vkEOX/Kq/ndiUHvdWbWLdtA3j7CZzA/7mPh41E+0HsXOlwKBgQCwALeKNFkbVs4a5NsG4G/6gZtjxggpO6OZo1E/A4f1FtsYQw2iTwoEfJ1SlKIErEPz29pMkbqbOMDrrcz/9CRXHPOGXl/vmvGIHbpcikswbHa5vnWtHRmTWrTP0AKO34T1U51BMkgWNzO6TPbvWJmtI5/vHJkTIH9EqqlZwSX94wKBgCeXXJ1usRNDX7YWunk6NA7b7iKWoyTBSA2Rx8GCLth/lvHcfP/6fYmanm4LxRyqlmo+MGHFOuK09BsQiamr+uaR8pTVTm/tB0xmGsdAuKaAIdD7oU3TQZhCw3BSa7rcKsRhNzDw3NgVyRTnmbLlCRCL024zPKCbdoZXTgmYl5ZzAoGBAIoe1erAsBkTY0WZygU4hsg5hB+lnmv1YKtGjpD8DWsal7APlxiEHKFuxeuztv4hzmYGZ+dlCeOcg1GxIErRZt9yWe5eC722g8vFQKY05VLIG9gijqjfSF3qdjEL1aYX5Xi9OJCcjBPbGF4g3jzw9BD6/x0f/UUUYKwbnjFQsabvAoGBAKrMki+NvR05CG0BD2ZgJYDUs0aTgIoHoUdn04NayVOLGHtiRy21sZYXAoFRxHj4Xx4saLhbuK0bY7PwEx+PwK27dEOsNKIpAw9NH5eRscnRSyFn79pOElYckQ2bXuc3ci9he8d1LqIIj0eA/9icYOVhke/TCZWO7S9Poap5ediE
-  publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwcMTBxtnm9jstZvhkpRwyETFlY4z5DE7Jm00LiCytAolJv3fE/+2oCGSSId/Vr9fB7d1WbglwgCHzyz/kW9d8qWxuzSMseVNwdhh3IfRL1encBZNepWWDp0ARmbN4iyNHAdWeBZpZHipaLHClwLOKXj993jocVdGHUu7Vm/WDOda8cIuc65TFuz9wqRJLEchJfw/ngUypWBiP8Kuu3eaiWbuc3dIUUtx8RQq5SBHkQbT3+VBLxrmbVDzXljIQFeQOFPtDEkgafejbYDZ4ouqx6LrtxhppmbQPKyzqref+bI1sr53d5sKhnfxgvo+VULzupv8stVg/FH+sTEdvfT8XQIDAQAB
-  notifyUrl: http://localhost:8080/notify
-  returnUrl: http://localhost:8080/return
-
+  url: ${ALIPAY_URL:https://openapi-sandbox.dl.alipaydev.com/gateway.do}
+  appid: ${ALIPAY_APPID:}
+  privateKey: ${ALIPAY_PRIVATE_KEY:}
+  publicKey: ${ALIPAY_PUBLIC_KEY:}
+  notifyUrl: ${ALIPAY_NOTIFY_URL:http://localhost:8080/notify}
+  returnUrl: ${ALIPAY_RETURN_URL:http://localhost:8080/return}
